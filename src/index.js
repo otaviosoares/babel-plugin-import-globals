@@ -1,4 +1,4 @@
-import {addNamed, isModule} from '@babel/helper-module-imports';
+import {addDefault, addNamed, isModule, addNamespace} from '@babel/helper-module-imports';
 
 module.exports = ({types: t}) => {
   return {
@@ -41,6 +41,12 @@ module.exports = ({types: t}) => {
         let cached = cache.get(key);
         if (cached) {
           cached = t.cloneDeep(cached);
+        } else if (name === 'default') {
+          cached = addDefault(file.path, source, {nameHint});
+          cache.set(key, cached);
+        } else if (name === '*') {
+          cached = addNamespace(file.path, source, {nameHint});
+          cache.set(key, cached);
         } else {
           cached = addNamed(file.path, name, source, {nameHint});
           cache.set(key, cached);
