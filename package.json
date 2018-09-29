@@ -27,6 +27,7 @@
   },
   "scripts": {
     "prepublish": "npm run build",
+    "prepare": "npm run build",
     "build": "babel src --out-dir lib",
     "lint": "eslint src",
     "posttest": "npm run lint",
